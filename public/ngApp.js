@@ -19,41 +19,54 @@ app.controller("myCtrl", function($scope, jsonBlob) {
 	$scope.helloTo = {};
 	$scope.helloTo.title = "AngularJS";
 	jsonBlob.get( function(data) {
-		console.log(data);
 	    $scope.gifts = data;
-
 	});
+
+	$scope.remove = function(id){
+		console.log(id)
+		jsonBlob.delete({"id":id}, function(success){
+
+		})
+	}
 });
 
-app.controller("createCtrl", function($scope, jsonBlob, $routeParams) {
-	$scope.create = "ello there";
+app.controller("createCtrl", function($scope, jsonBlob,jsonBlobById, $routeParams,$location) {
 	$scope.post={};
 	$scope.tags=[];
 	$scope.channels=[];
-	console.log($routeParams.id);
 	if($routeParams.id !== undefined){
-		jsonBlob.get( function(data) {
-	    	$scope.post = data[0];
-	    	var day = moment(data[0].scheduled);
+		jsonBlobById.get( {"id": $routeParams.id}, function(data) {
+	    	$scope.post = data;
+	    	var day = moment(data.scheduled);
 	    	$scope.scheduled = day.toDate();
-	    	$scope.tags=data[0].tags;
+	    	$scope.tags=data.tags;
+	    	$scope.channels=data.channels;
 		});
 	}	
 
 	$scope.postForm = function(){
-		$scope.post.id = getRandomId();
-		console.log($scope.post);
-		console.log($scope.post.id);
 		$scope.post.tags=$scope.tags;
+		$scope.post.channels=$scope.channels;
+		$scope.post.scheduled=JSON.stringify($scope.scheduled);
 
-		//jsonBlob.post($scope.post);		
+		if($routeParams.id !== undefined){
+			jsonBlob.put($scope.post, function(success){
+				jsonBlob.get();
+				$location.path('/');
+			});	
+		}else{
+			$scope.post.id = getRandomId();
+			jsonBlob.post($scope.post, function(success){
+				jsonBlob.get();
+				$location.path('/');
+			});			
+		}		
 	}
 
 	$scope.addNewTag = function() {
   	 	$scope.tags.push("");
 	};
 	$scope.addNewChannel = function() {
-		console.log($scope.channels);
   	 	$scope.channels.push({"name": "", "id": getRandomId() });
 	};
 
@@ -68,12 +81,35 @@ app.factory('jsonBlob',
     	{
         	get: {
         		method:'GET', 
-        		params:{}, 
+        		params: {},
         		headers: {'Accept': 'application/json;charset=UTF-8'},
         		isArray:true},
         	post: {
         		method:'POST',
-        		params:{},
+        		headers: {'Accept': 'application/json;charset=UTF-8'},
+        		isArray:false
+        	},
+        	put: {
+        		method:'PUT',
+        		headers: {'Accept': 'application/json;charset=UTF-8'},
+        		isArray:false
+        	},
+        	delete: {
+        		method:'DELETE',
+        		headers: {'Accept': 'application/json;charset=UTF-8'},
+        		isArray:false
+        	}
+    	}
+    );
+});
+
+app.factory('jsonBlobById',
+	function($resource){
+    	return $resource("/api/gifts/:id", {}, 
+    	{
+        	get: {
+        		method:'GET', 
+        		params: {},
         		headers: {'Accept': 'application/json;charset=UTF-8'},
         		isArray:false
         	}

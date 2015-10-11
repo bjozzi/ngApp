@@ -19,15 +19,26 @@
 <div ng-view></div>
 
 <div ng-controller="myCtrl" >
-         <h2>Welcome {{helloTo.title}} to the world of Tutorialspoint!</h2>
 
         <div class="checkbox" ng-repeat="gift in gifts">
           <div id="content">
               <p>{{gift.content.message}}<p>
+              <a href="#/create/{{gift.id}}">edit</a>
+              <a href="" ng-click="remove(gift.id)">remove</a>
+              <br>
               <img ng-src="{{gift.content.media.url}}" />
-              <p ng-repeat="tag in gift.tags">
+              <br>
+              Tags:
+              <a ng-repeat="tag in gift.tags">
                 {{tag}}
-              </p>
+              </a>
+              <br>
+              Channels:
+              <a ng-repeat="channel in gift.channels">
+                {{channel.name}}
+              </a>
+
+              <p>Schedule : {{gift.scheduled | date:'medium'}}</p>
           </div>
         </div>
       </div>

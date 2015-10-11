@@ -28,19 +28,40 @@ router.get('/', function(req, res) {
 });
 
 
+
 router.route('/gifts')
 .get(function(req, res){
-  console.log(jsonBlob);
-  res.json(jsonBlob);
+    res.json(jsonBlob);
 })
 .post(function(req, res){
-  console.log(req.body);
   jsonBlob.push(req.body);
   writeToFile();
   res.json({message: 'object saved'});
 })
-;
+.put(function(req, res){
+  jsonBlob[findItemById(req.body.id)] = req.body;
+})
+.delete(function(req, res){
+  jsonBlob.splice(findItemById(req.query.id), 1);
+});
 
+router.route('/gifts/:id')
+.get(function(req, res){
+  console.log(req.params.id);
+  console.log(req.params);
+  console.log(jsonBlob[findItemById(req.params.id)]);
+  res.json(jsonBlob[findItemById(req.params.id)]);
+});
+
+
+
+function findItemById(id){
+  for (var i = 0; i < jsonBlob.length; i++) {
+    if(jsonBlob[i].id === id){
+      return i;
+    }
+  };
+}
 
 //server
 var server = app.listen(3000, function () {
