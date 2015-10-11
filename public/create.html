@@ -1,0 +1,80 @@
+<div>
+	{{post[0].tags}}
+<form method="post">
+	<fieldset>
+	<legend>Your Details</legend>
+		<div>
+			message
+		<input type="text" ng-model="post.content.message"><br>
+		</div>
+
+		<div>
+			network
+		<input type="text" ng-model="post.content.network"><br>
+		</div>
+		<div>
+			postType
+		<input type="text" ng-model="post.content.postType"><br>
+		</div>
+
+		<div>
+			filename
+		<input type="text" ng-model="post.content.media.fileName"><br>
+		</div>
+		<div>
+			url
+		<input type="url" ng-model="post.content.media.url"><br>
+		</div>
+
+		<button ng-click="addNewTag()">Add tag</button>
+		<div ng-repeat="tag in tags track by $index">
+			tags
+		<input type="text" ng-model="tags[$index]"><br>
+		</div>
+		
+		<div>
+			<label for="drinks">status</label><br>
+			<input type="radio" name="drinks" ng-model="post.status" value="draft"> Draft
+			<input type="radio" name="drinks" ng-model="post.status" value="finish"> Finish
+		</div>
+
+		<button ng-click="addNewChannel()">Add channel</button>
+		<div ng-repeat="channel in channels track by $index">
+			channels
+		<input type="text" ng-model="channels[$index].name"><br>
+		</div>
+
+		<div>
+			schedueld
+		<input type="date" ng-model="scheduled"><br>
+		</div>
+
+
+		<label for="repeatSelect"> countries: </label>
+    	<select name="repeatSelect" ng-model="post.geo.countries">
+      	<option ng-repeat="option in countries" value="{{option.key}}">{{option.value}}</option>
+    	</select>
+
+		<label for="repeatSelect"> languages: </label>
+    	<select name="repeatSelect" ng-model="post.geo.languages">
+      	<option ng-repeat="option in languages" value="{{option.key}}">{{option.value}}</option>
+    	</select>
+
+		<label for="repeatSelect"> cities: </label>
+    	<select name="repeatSelect" ng-model="post.geo.cities">
+      	<option ng-repeat="option in cities" value="{{option.key}}">{{option.value}}</option>
+    	</select>
+
+
+		<label for="repeatSelect"> regions: </label>
+    	<select name="repeatSelect" ng-model="post.geo.regions">
+      	<option ng-repeat="option in regions" value="{{option.key}}">{{option.value}}</option>
+    	</select>
+
+	<div>
+		<input type="submit" ng-click="postForm()" value="Submit">
+	</div>
+
+	</fieldset>
+</form>
+<div>

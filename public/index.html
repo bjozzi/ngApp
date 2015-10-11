@@ -1,0 +1,37 @@
+<!doctype html>
+<html ng-app="myapp">
+  <head>
+    <meta charset="utf-8">
+    <title>My Angular App</title>
+  </head>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
+<script src="https://code.angularjs.org/1.4.5/angular-resource.js"></script>
+<script src="https://code.angularjs.org/1.4.5/angular-route.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+<script type="text/javascript" src="ngApp.js"></script>
+  <style type="text/css">
+  [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide {
+    display: none !important;
+}
+</style>
+  <body >
+<a href="#/create">create</a>
+<div ng-view></div>
+
+<div ng-controller="myCtrl" >
+         <h2>Welcome {{helloTo.title}} to the world of Tutorialspoint!</h2>
+
+        <div class="checkbox" ng-repeat="gift in gifts">
+          <div id="content">
+              <p>{{gift.content.message}}<p>
+              <img ng-src="{{gift.content.media.url}}" />
+              <p ng-repeat="tag in gift.tags">
+                {{tag}}
+              </p>
+          </div>
+        </div>
+      </div>
+  </body>
+</html>
+
+

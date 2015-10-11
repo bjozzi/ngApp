@@ -4,36 +4,16 @@
     <title>My Angular App</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
   	<script type="text/javascript" src="https://code.angularjs.org/1.4.5/angular-resource.js"></script>
+    <script type="text/javascript" src="ngApp.js"></script>
   </head>
   <body>
 
+<div ng-controller="myCtrl" >
 <div ng-controller="myCtrl" >
          <h2>Welcome {{helloTo.title}} to the world of Tutorialspoint!</h2>
          {{post}}
       </div>
   </body>
-
-  	<script>
-         var app = angular.module("myapp", ['ngResource']);
-         
-         app.controller("myCtrl", function($scope, jsonBlob) {
-            $scope.helloTo = {};
-            $scope.helloTo.title = "AngularJS";
-			jsonBlob.get({ id: 1 }, function(data) {
-				console.log(data);
-			    $scope.post = data;
-			  });
-         });
-
-         app.factory('jsonBlob',
-		    function($resource){
-		        return $resource("https://jsonblob.com/api/jsonBlob/55683150e4b03d338bd86998", {}, 
-		        {
-		            get: {method:'GET', params:{}, headers: {'Accept': 'application/json;charset=UTF-8'}, isArray:true}
-		        }
-		        );
-		    });
-      </script>
 </html>
 
 
