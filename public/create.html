@@ -1,38 +1,63 @@
-<div>
-	{{post[0].tags}}
+<div class="container">
+<style type="text/css">
+* {
+    outline: none;
+    box-sizing: border-box;
+}
+
+ul.dropdown-menu {
+    padding: 0;
+    margin: 10px 0;
+    list-style: none;
+}
+ul.dropdown-menu > li {
+    padding: 6px 0;
+    margin: 0;
+    cursor: pointer;
+}
+ul.dropdown-menu > li:hover {
+    color: #f3f3f3;
+    background-color: #666;
+}
+input {
+    padding: 4px 6px;
+}
+</style>
 <form method="post">
 	<fieldset>
 	<legend>Your Details</legend>
-		<div>
+		<div class="form-group">
 			message
 		<input type="text" ng-model="post.content.message"><br>
 		</div>
 
-		<div>
+		<div class="form-group">
 			network
 		<input type="text" ng-model="post.content.network"><br>
 		</div>
-		<div>
+		<div class="form-group">
 			postType
 		<input type="text" ng-model="post.content.postType"><br>
 		</div>
 
-		<div>
+		<div class="form-group">
 			filename
 		<input type="text" ng-model="post.content.media.fileName"><br>
 		</div>
-		<div>
+		<div class="form-group">
 			url
 		<input type="url" ng-model="post.content.media.url"><br>
 		</div>
 
+		<div class="form-group">
 		<button ng-click="addNewTag()">Add tag</button>
 		<div ng-repeat="tag in tags track by $index">
 			tags
 		<input type="text" ng-model="tags[$index]"><br>
 		</div>
+		</div>
 		
-		<div>
+		<div class="form-group">
 			<label for="drinks">status</label><br>
 			<input type="radio" name="drinks" ng-model="post.status" value="draft"> Draft
 			<input type="radio" name="drinks" ng-model="post.status" value="finish"> Finish
@@ -44,35 +69,43 @@
 		<input type="text" ng-model="channels[$index].name"><br>
 		</div>
 
-		<div>
+		<div class="form-group">
 			schedueld
 		<input type="date" ng-model="scheduled"><br>
 		</div>
 
-
+		<div class="form-group">
 		<label for="repeatSelect"> countries: </label>
-    	<select name="repeatSelect" ng-model="post.geo.countries">
-      	<option ng-repeat="option in countries" value="{{option.key}}">{{option.value}}</option>
-    	</select>
+    	<p ng-repeat="country in post.geo.countries">
+    		{{country.value}}
+    	</p>
+    	<input type="text" ng-model="selected" uib-typeahead="country as country.value for country in countries" typeahead-on-select="addCountry(selected); selected = '';" />
+    	</div>
 
+
+    	<div class="form-group">
 		<label for="repeatSelect"> languages: </label>
     	<select name="repeatSelect" ng-model="post.geo.languages">
       	<option ng-repeat="option in languages" value="{{option.key}}">{{option.value}}</option>
     	</select>
+    	</div>
 
+    	<div class="form-group">
 		<label for="repeatSelect"> cities: </label>
     	<select name="repeatSelect" ng-model="post.geo.cities">
       	<option ng-repeat="option in cities" value="{{option.key}}">{{option.value}}</option>
     	</select>
+		</div>
 
-
+    	<div class="form-group">
 		<label for="repeatSelect"> regions: </label>
     	<select name="repeatSelect" ng-model="post.geo.regions">
       	<option ng-repeat="option in regions" value="{{option.key}}">{{option.value}}</option>
     	</select>
+    	</div>
 
 	<div>
-		<input type="submit" ng-click="postForm()" value="Submit">
+		<input type="submit" class="btn btn-default" ng-click="postForm()" value="Submit">
 	</div>
 
 	</fieldset>

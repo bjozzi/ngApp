@@ -1,0 +1,36 @@
+<div ng-controller="myCtrl" >
+  <style type="text/css">
+.highlight {
+    padding: 9px 14px;
+    margin-bottom: 14px;
+    background-color: #f7f7f9;
+    border: 1px solid #e1e1e8;
+    border-radius: 4px;
+}
+  </style>
+        <div class="container highlight" ng-repeat="gift in gifts">
+          <div id="content">
+              <h2>{{gift.content.message}}</h2>
+              <a href="#/create/{{gift.id}}">edit</a>
+              <a href="" ng-click="remove(gift.id)">remove</a>
+              <br>
+              <img ng-src="{{gift.content.media.url}}" />
+              <br>
+              Tags:
+              <strong ng-repeat="tag in gift.tags track by $index">
+                {{tag}} {{$last ? '' : ', '}}
+              </strong>
+              <br>
+              Channels:
+              <strong ng-repeat="channel in gift.channels">
+                {{channel.name}}{{$last ? '' : ', '}}
+              </strong>
+              <p>Schedule : {{gift.scheduled | date:'medium'}}</p>
+              <br>
+              Countries:
+              <strong ng-repeat="country in gift.geo.countries">
+                {{country.value}}{{$last ? '' : ', '}}
+              </strong>
+          </div>
+        </div>
+      </div>

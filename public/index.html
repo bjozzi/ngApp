@@ -4,45 +4,34 @@
     <meta charset="utf-8">
     <title>My Angular App</title>
   </head>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
-<script src="https://code.angularjs.org/1.4.5/angular-resource.js"></script>
-<script src="https://code.angularjs.org/1.4.5/angular-route.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
-<script type="text/javascript" src="ngApp.js"></script>
+  
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <style type="text/css">
   [ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak, .ng-hide {
     display: none !important;
 }
 </style>
-  <body >
-<a href="#/create">create</a>
+  <body>
+    <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+<ul class="nav nav-tabs">
+  <li role="presentation"><a href="#/create">create</a></li>
+  <li role="presentation"><a href="#/overview">overview</a>
+</li>
+</div>
+</div>
+</nav>
 <div ng-view></div>
+</body>
 
-<div ng-controller="myCtrl" >
-
-        <div class="checkbox" ng-repeat="gift in gifts">
-          <div id="content">
-              <p>{{gift.content.message}}<p>
-              <a href="#/create/{{gift.id}}">edit</a>
-              <a href="" ng-click="remove(gift.id)">remove</a>
-              <br>
-              <img ng-src="{{gift.content.media.url}}" />
-              <br>
-              Tags:
-              <a ng-repeat="tag in gift.tags">
-                {{tag}}
-              </a>
-              <br>
-              Channels:
-              <a ng-repeat="channel in gift.channels">
-                {{channel.name}}
-              </a>
-
-              <p>Schedule : {{gift.scheduled | date:'medium'}}</p>
-          </div>
-        </div>
-      </div>
-  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
+<script src="https://code.angularjs.org/1.4.5/angular-resource.js"></script>
+<script src="https://code.angularjs.org/1.4.5/angular-route.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.0/ui-bootstrap-tpls.min.js"></script>
+<script type="text/javascript" src="ngApp.js"></script>
 </html>
 
 

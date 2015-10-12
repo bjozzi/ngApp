@@ -40,28 +40,20 @@ router.route('/gifts')
 })
 .put(function(req, res){
   jsonBlob[findItemById(req.body.id)] = req.body;
+  res.json({message: 'object updated'});
 })
 .delete(function(req, res){
   jsonBlob.splice(findItemById(req.query.id), 1);
+    res.json({message: 'object removed'});
 });
 
 router.route('/gifts/:id')
 .get(function(req, res){
-  console.log(req.params.id);
-  console.log(req.params);
-  console.log(jsonBlob[findItemById(req.params.id)]);
   res.json(jsonBlob[findItemById(req.params.id)]);
 });
 
 
 
-function findItemById(id){
-  for (var i = 0; i < jsonBlob.length; i++) {
-    if(jsonBlob[i].id === id){
-      return i;
-    }
-  };
-}
 
 //server
 var server = app.listen(3000, function () {
@@ -131,3 +123,12 @@ fs.readFile('filename.json', function (err, data) {
    }
    jsonBlob = JSON.parse(data.toString());
 });
+
+
+function findItemById(id){
+  for (var i = 0; i < jsonBlob.length; i++) {
+    if(jsonBlob[i].id === id){
+      return i;
+    }
+  };
+}

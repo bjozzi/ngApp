@@ -1,5 +1,11 @@
- var app = angular.module("myapp", ['ngResource', 'ngRoute']);
+ var app = angular.module("myapp", ['ngResource', 'ngRoute','ui.bootstrap']);
          
+app.run(function($rootScope,jsonBlob){
+	jsonBlob.get(function(data){
+		$rootScope.gifts = data;	
+	});
+	 
+});
 app.config(function($routeProvider, $locationProvider) {
 		$routeProvider
 		.when('/create', {
@@ -10,30 +16,31 @@ app.config(function($routeProvider, $locationProvider) {
 		templateUrl: 'create.html',
 		controller: 'createCtrl'
 		})
+		.when('/overview', {
+			templateUrl:'overview.html',
+			controller:'myCtrl'
+		})
 		.otherwise({
-			redirectTo: '/'
+			redirectTo: '/overview'
 		})
 });
 
-app.controller("myCtrl", function($scope, jsonBlob) {
-	$scope.helloTo = {};
-	$scope.helloTo.title = "AngularJS";
-	jsonBlob.get( function(data) {
-	    $scope.gifts = data;
-	});
-
+app.controller("myCtrl", function($scope,$rootScope, jsonBlob) {
 	$scope.remove = function(id){
-		console.log(id)
 		jsonBlob.delete({"id":id}, function(success){
-
-		})
+			$rootScope.gifts = jsonBlob.get();
+		});
 	}
 });
 
-app.controller("createCtrl", function($scope, jsonBlob,jsonBlobById, $routeParams,$location) {
+app.controller("createCtrl", function($scope,$rootScope, jsonBlob,jsonBlobById, $routeParams,$location) {
 	$scope.post={};
 	$scope.tags=[];
+	$scope.post.geo = {};
+	$scope.post.geo.countries = [];
 	$scope.channels=[];
+	$scope.countries = countries;
+	$scope.languages = languages;
 	if($routeParams.id !== undefined){
 		jsonBlobById.get( {"id": $routeParams.id}, function(data) {
 	    	$scope.post = data;
@@ -51,13 +58,13 @@ app.controller("createCtrl", function($scope, jsonBlob,jsonBlobById, $routeParam
 
 		if($routeParams.id !== undefined){
 			jsonBlob.put($scope.post, function(success){
-				jsonBlob.get();
+				$rootScope.gifts = jsonBlob.get();
 				$location.path('/');
 			});	
 		}else{
 			$scope.post.id = getRandomId();
 			jsonBlob.post($scope.post, function(success){
-				jsonBlob.get();
+				$rootScope.gifts = jsonBlob.get();
 				$location.path('/');
 			});			
 		}		
@@ -72,6 +79,11 @@ app.controller("createCtrl", function($scope, jsonBlob,jsonBlobById, $routeParam
 
 	function getRandomId(){
 		return Math.random().toString(36).substring(7);
+	}
+
+	$scope.addCountry = function(country){
+		$scope.post.geo.countries.push(country);
+		$scope.selected = "";
 	}
 });
 
@@ -116,3 +128,113 @@ app.factory('jsonBlobById',
     	}
     );
 });
+
+
+
+
+var countries = [ 
+{"value": "Afghanistan", "key": "AF"}, 
+{"value": "Åland Islands", "key": "AX"}, 
+{"value": "Albania", "key": "AL"}, 
+{"value": "Algeria", "key": "DZ"}, 
+{"value": "American Samoa", "key": "AS"}, 
+{"value": "AndorrA", "key": "AD"}, 
+{"value": "Angola", "key": "AO"}, 
+{"value": "Anguilla", "key": "AI"}, 
+{"value": "Antarctica", "key": "AQ"}, 
+{"value": "Antigua and Barbuda", "key": "AG"}, 
+{"value": "Argentina", "key": "AR"}, 
+{"value": "Armenia", "key": "AM"}, 
+{"value": "Aruba", "key": "AW"}, 
+{"value": "Australia", "key": "AU"}, 
+{"value": "Austria", "key": "AT"}, 
+{"value": "Azerbaijan", "key": "AZ"}, 
+{"value": "Bahamas", "key": "BS"}, 
+{"value": "Bahrain", "key": "BH"}, 
+{"value": "Bangladesh", "key": "BD"}, 
+{"value": "Barbados", "key": "BB"}, 
+{"value": "Belarus", "key": "BY"}, 
+{"value": "Belgium", "key": "BE"}, 
+{"value": "Belize", "key": "BZ"}, 
+{"value": "Benin", "key": "BJ"}, 
+{"value": "Bermuda", "key": "BM"}, 
+{"value": "Bhutan", "key": "BT"}, 
+{"value": "Bolivia", "key": "BO"}, 
+{"value": "Bosnia and Herzegovina", "key": "BA"}, 
+{"value": "Botswana", "key": "BW"}, 
+{"value": "Bouvet Island", "key": "BV"}
+];
+
+var languages = [
+  {
+    "key": "ab",
+    "value": "Abkhaz"
+  },
+  {
+    "key": "aa",
+    "value": "Afar"
+  },
+  {
+    "key": "af",
+    "value": "Afrikaans"
+  },
+  {
+    "key": "ak",
+    "value": "Akan"
+  },
+  {
+    "key": "sq",
+    "value": "Albanian"
+  },
+  {
+    "key": "am",
+    "value": "Amharic"
+  },
+  {
+    "key": "ar",
+    "value": "Arabic"
+  },
+  {
+    "key": "an",
+    "value": "Aragonese"
+  },
+  {
+    "key": "hy",
+    "value": "Armenian"
+  },
+  {
+    "key": "as",
+    "value": "Assamese"
+  },
+  {
+    "key": "av",
+    "value": "Avaric"
+  },
+  {
+    "key": "ae",
+    "value": "Avestan"
+  },
+  {
+    "key": "ay",
+    "value": "Aymara"
+  },
+  {
+    "key": "az",
+    "value": "Azerbaijani"
+  },
+  {
+    "key": "bm",
+    "value": "Bambara"
+  },
+  {
+    "key": "ba",
+    "value": "Bashkir"
+  },
+  {
+    "key": "eu",
+    "value": "Basque"
+  },
+  {
+    "key": "be",
+    "value": "Belarusian"
+  }];
